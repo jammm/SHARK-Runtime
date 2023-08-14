@@ -259,7 +259,14 @@ def prepare_installation():
             "-DPython3_EXECUTABLE={}".format(sys.executable),
             "-DCMAKE_BUILD_TYPE={}".format(cfg),
             # TODO(scotttodd): include IREE_TARGET_BACKEND_WEBGPU here (and in env)
-            get_env_cmake_option("IREE_TARGET_BACKEND_ROCM"),
+            "-DIREE_ENABLE_THIN_ARCHIVES=ON",
+            "-DIREE_ENABLE_LLD=ON",
+            "-DIREE_TARGET_BACKEND_ROCM=ON",
+            "-DROCM_HEADERS_API_ROOT=C:\\HIP\\include",
+            get_env_cmake_option(
+                "IREE_HAL_DRIVER_VULKAN",
+                "OFF",
+            ),
             get_env_cmake_option("IREE_TARGET_BACKEND_OPENCL_SPIRV"),
             get_env_cmake_option("IREE_ENABLE_CPUINFO", "ON"),
         ]

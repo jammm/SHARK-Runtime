@@ -267,12 +267,16 @@ def build_configuration(cmake_build_dir, cmake_install_dir, extra_cmake_args=())
         "-DIREE_BUILD_TESTS=OFF",
         "-DPython3_EXECUTABLE={}".format(sys.executable),
         "-DCMAKE_BUILD_TYPE={}".format(cfg),
+        "-DIREE_ENABLE_THIN_ARCHIVES=ON",
+        "-DIREE_ENABLE_LLD=ON",
+        "-DIREE_TARGET_BACKEND_ROCM=ON",
+        "-DROCM_HEADERS_API_ROOT=C:\\HIP\\include",
         get_env_cmake_option(
             "IREE_HAL_DRIVER_VULKAN",
-            "OFF" if platform.system() == "Darwin" else "ON",
+            "OFF",
         ),
         get_env_cmake_list("IREE_EXTERNAL_HAL_DRIVERS",
-            "" if sysconfig.get_platform() != "linux-x86_64" else "rocm;level_zero"),
+            "rocm"),
         get_env_cmake_option("IREE_ENABLE_CPUINFO", "ON"),
     ] + list(extra_cmake_args)
     add_env_cmake_setting(cmake_args, "IREE_TRACING_PROVIDER")
